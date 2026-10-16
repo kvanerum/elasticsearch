@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.elasticsearch.common.logging.LoggerMessageFormat.format;
 import static org.elasticsearch.xpack.esql.core.expression.TypeResolutions.ParamOrdinal.SECOND;
 import static org.elasticsearch.xpack.esql.core.expression.TypeResolutions.isTypeOrUnionType;
 import static org.elasticsearch.xpack.esql.core.type.DataType.IP;
@@ -102,7 +103,7 @@ public class ToIp extends EsqlScalarFunction implements OnlySurrogateExpression,
         Source source,
         @Param(
             name = "field",
-            type = { "ip", "keyword", "text" },
+            type = { "ip", "keyword", "text", "integer", "long", "unsigned_long" },
             description = "Input value. The input can be a single- or multi-valued column or an expression."
         ) Expression field,
         @MapParam(
@@ -155,6 +156,10 @@ public class ToIp extends EsqlScalarFunction implements OnlySurrogateExpression,
 
     @Override
     public Expression surrogate() {
+        if (ToIpFromNumeric.EVALUATORS.containsKey(field.dataType())) {
+            return new ToIpFromNumeric(source(), field);
+        }
+
         return LeadingZeros.from((MapExpression) options).surrogate(source(), field);
     }
 
@@ -165,7 +170,6 @@ public class ToIp extends EsqlScalarFunction implements OnlySurrogateExpression,
 
     @Override
     public Set<DataType> supportedTypes() {
-        // All ToIpLeadingZeros* functions support the same input set. So we just pick one.
         return ToIpLeadingZerosRejected.EVALUATORS.keySet();
     }
 
@@ -176,7 +180,7 @@ public class ToIp extends EsqlScalarFunction implements OnlySurrogateExpression,
         }
         TypeResolution resolution = isTypeOrUnionType(
             field,
-            ToIpLeadingZerosRejected.EVALUATORS::containsKey,
+            supportedTypes()::contains,
             sourceText(),
             null,
             supportedTypesNames(supportedTypes())
@@ -185,6 +189,21 @@ public class ToIp extends EsqlScalarFunction implements OnlySurrogateExpression,
         if (resolution.unresolved()) {
             return resolution;
         }
+
+        if (options != null
+            && !((MapExpression) options).keyFoldedMap().isEmpty()
+            && ToIpFromNumeric.EVALUATORS.containsKey(field.dataType())) {
+            return new TypeResolution(
+                format(
+                    null,
+                    "function [{}] does not support option [{}] for [{}] inputs",
+                    sourceText(),
+                    LEADING_ZEROS,
+                    field.dataType().typeName()
+                )
+            );
+        }
+
         try {
             LeadingZeros.from((MapExpression) options);
         } catch (IllegalArgumentException e) {

@@ -1711,10 +1711,9 @@ public class VerifierTests extends AnalyzerTestCase {
     }
 
     public void testInlineImpossibleConvert() {
-        defaultAnalyzer().error(
-            "ROW false::ip",
-            equalTo("1:5: argument of [false::ip] must be [ip or string], found value [false] type [boolean]")
-        );
+        defaultAnalyzer().error("ROW false::ip", equalTo("""
+            1:5: argument of [false::ip] must be [integer or ip or long or string or unsigned_long], \
+            found value [false] type [boolean]"""));
     }
 
     public void testAggregateOnCounter() {
@@ -4198,6 +4197,9 @@ public class VerifierTests extends AnalyzerTestCase {
 
         query = "ROW result = to_ip(\"127.0.0.1\", { \"leading_zeros\": \"abcdef\" })";
         defaultAnalyzer().error(query, containsString("Illegal leading_zeros [abcdef]"));
+
+        query = "ROW result = to_ip(-1062731519, { \"leading_zeros\": \"decimal\" })";
+        defaultAnalyzer().error(query, containsString("does not support option [leading_zeros] for [integer] inputs"));
     }
 
     public void testInvalidTBucketCalls() {

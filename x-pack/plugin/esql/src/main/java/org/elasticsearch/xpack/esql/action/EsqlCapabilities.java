@@ -4524,6 +4524,11 @@ public class EsqlCapabilities {
          */
         RUNTIME_SCORE_FIX,
 
+        /**
+         * Support for converting a number to an IP address in TO_IP.
+         */
+        TO_IP_FROM_NUMERIC,
+
         // Last capability should still have a comma for fewer merge conflicts when adding new ones :)
         // This comment prevents the semicolon from being on the previous capability when Spotless formats the file.
         ;

@@ -17,6 +17,8 @@ import org.elasticsearch.xpack.esql.core.type.DataType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.elasticsearch.xpack.esql.core.type.DataType.IP;
 import static org.elasticsearch.xpack.esql.core.type.DataType.KEYWORD;
@@ -34,11 +36,16 @@ public class ToIpLeadingZerosRejected extends AbstractConvertFunction {
         ToIpLeadingZerosRejected::new
     );
 
-    static final Map<DataType, BuildFactory> EVALUATORS = Map.ofEntries(
+    static final Map<DataType, BuildFactory> STRING_EVALUATORS = Map.ofEntries(
         Map.entry(IP, (source, field) -> field),
         Map.entry(KEYWORD, FROM_KEYWORD_LEADING_ZEROS_REJECTED),
         Map.entry(TEXT, FROM_KEYWORD_LEADING_ZEROS_REJECTED)
     );
+
+    static final Map<DataType, BuildFactory> EVALUATORS = Stream.concat(
+        STRING_EVALUATORS.entrySet().stream(),
+        ToIpFromNumeric.EVALUATORS.entrySet().stream()
+    ).collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
 
     public ToIpLeadingZerosRejected(Source source, Expression field) {
         super(source, field);

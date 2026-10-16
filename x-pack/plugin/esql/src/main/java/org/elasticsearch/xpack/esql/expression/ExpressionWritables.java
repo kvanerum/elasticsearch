@@ -39,6 +39,7 @@ import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToGeohex;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToGeotile;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToInteger;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIntegerBase;
+import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpFromNumeric;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpLeadingZerosDecimal;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpLeadingZerosOctal;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpLeadingZerosRejected;
@@ -272,6 +273,7 @@ public class ExpressionWritables {
         entries.add(ToIpLeadingZerosDecimal.ENTRY);
         entries.add(ToIpLeadingZerosOctal.ENTRY);
         entries.add(ToIpLeadingZerosRejected.ENTRY);
+        entries.add(ToIpFromNumeric.ENTRY);
         entries.add(ToInteger.ENTRY);
         entries.add(ToIntegerBase.ENTRY);
         entries.add(ToLong.ENTRY);

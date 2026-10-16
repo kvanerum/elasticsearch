@@ -8,6 +8,18 @@
       "params" : [
         {
           "name" : "field",
+          "type" : "integer",
+          "optional" : false,
+          "description" : "Input value. The input can be a single- or multi-valued column or an expression."
+        }
+      ],
+      "variadic" : false,
+      "returnType" : "ip"
+    },
+    {
+      "params" : [
+        {
+          "name" : "field",
           "type" : "ip",
           "optional" : false,
           "description" : "Input value. The input can be a single- or multi-valued column or an expression."
@@ -70,6 +82,18 @@
       "params" : [
         {
           "name" : "field",
+          "type" : "long",
+          "optional" : false,
+          "description" : "Input value. The input can be a single- or multi-valued column or an expression."
+        }
+      ],
+      "variadic" : false,
+      "returnType" : "ip"
+    },
+    {
+      "params" : [
+        {
+          "name" : "field",
           "type" : "text",
           "optional" : false,
           "description" : "Input value. The input can be a single- or multi-valued column or an expression."
@@ -92,6 +116,18 @@
           "mapParams" : "{name='leading_zeros', values=[reject, octal, decimal], description='What to do with leading 0s in IPv4 addresses.', type=[keyword]}",
           "optional" : true,
           "description" : "(Optional) Additional options."
+        }
+      ],
+      "variadic" : false,
+      "returnType" : "ip"
+    },
+    {
+      "params" : [
+        {
+          "name" : "field",
+          "type" : "unsigned_long",
+          "optional" : false,
+          "description" : "Input value. The input can be a single- or multi-valued column or an expression."
         }
       ],
       "variadic" : false,

@@ -4,10 +4,13 @@
 
 | field | options | result |
 | --- | --- | --- |
+| integer | | ip |
 | ip | named parameters | ip |
 | ip | | ip |
 | keyword | named parameters | ip |
 | keyword | | ip |
+| long | | ip |
 | text | named parameters | ip |
 | text | | ip |
+| unsigned_long | | ip |
 

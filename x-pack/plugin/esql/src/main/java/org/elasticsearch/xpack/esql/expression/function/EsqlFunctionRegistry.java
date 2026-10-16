@@ -101,6 +101,7 @@ import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToInteger
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIntegerBase;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIntegerSurrogate;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIp;
+import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpFromNumeric;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpLeadingZerosDecimal;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpLeadingZerosOctal;
 import org.elasticsearch.xpack.esql.expression.function.scalar.convert.ToIpLeadingZerosRejected;
@@ -1150,6 +1151,7 @@ public class EsqlFunctionRegistry {
         names.put(ToIpLeadingZerosRejected.class, "TO_IP");
         names.put(ToIpLeadingZerosDecimal.class, "TO_IP");
         names.put(ToIpLeadingZerosOctal.class, "TO_IP");
+        names.put(ToIpFromNumeric.class, "TO_IP");
 
         names.put(ToLongBase.class, "TO_LONG");
         names.put(ToLong.class, "TO_LONG");
